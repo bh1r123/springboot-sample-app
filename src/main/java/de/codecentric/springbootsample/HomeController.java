@@ -66,11 +66,11 @@ public class HomeController {
         try {
             inetAddress = InetAddress.getLocalHost();
             hostAddress = inetAddress.getHostAddress();
-            logger.info("Current IP address : " + inetAddress.getHostAddress());
+            logger.info("[V1] Current IP address : " + inetAddress.getHostAddress());
         } catch (Exception e) {
             logger.info(String.valueOf(e));
         }
 
-        return "You said " + input + " to " + hostAddress + " date: " + new Date() + "\n";
+        return "[V1] You said " + input + " to " + hostAddress + " date: " + new Date() + "\n";
     }
 }
