@@ -60,7 +60,7 @@ public class HomeController {
 
     @ResponseBody
     @RequestMapping(value = "/api/say/hello", method = RequestMethod.GET)
-    public String sayHello(@RequestBody String input) {
+    public String sayHello(@RequestParam String input) {
         InetAddress inetAddress = null;
         String hostAddress = "";
         try {
@@ -69,6 +69,10 @@ public class HomeController {
             logger.info("Current IP address : " + inetAddress.getHostAddress());
         } catch (Exception e) {
             logger.info(String.valueOf(e));
+        }
+
+        if ( null == input ) {
+            input = "nothing";
         }
 
         return "You said " + input + " to " + hostAddress + " date: " + new Date() + "\n";
