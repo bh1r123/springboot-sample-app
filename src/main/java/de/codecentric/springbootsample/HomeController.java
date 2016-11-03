@@ -15,20 +15,23 @@
  */
 package de.codecentric.springbootsample;
 
-import javax.validation.Valid;
-import java.util.List;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.net.InetAddress;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
 public class HomeController {
+    private static Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     private RecordRepository repository;
 
@@ -53,5 +56,21 @@ public class HomeController {
             repository.save(record);
         }
         return home(model);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/api/say/hello", method = RequestMethod.GET)
+    public String sayHello(@RequestBody String input) {
+        InetAddress inetAddress = null;
+        String hostAddress = "";
+        try {
+            inetAddress = InetAddress.getLocalHost();
+            hostAddress = inetAddress.getHostAddress();
+            logger.info("Current IP address : " + inetAddress.getHostAddress());
+        } catch (Exception e) {
+            logger.info(String.valueOf(e));
+        }
+
+        return "You said " + input + " to " + hostAddress + " date: " + new Date() + "\n";
     }
 }
