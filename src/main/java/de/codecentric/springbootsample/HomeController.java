@@ -18,6 +18,7 @@ package de.codecentric.springbootsample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -34,6 +35,9 @@ public class HomeController {
     private static Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     private RecordRepository repository;
+
+    @Value("${project.version}")
+    private String projectVersion;
 
     @Autowired
     public HomeController(RecordRepository repository) {
@@ -66,11 +70,11 @@ public class HomeController {
         try {
             inetAddress = InetAddress.getLocalHost();
             hostAddress = inetAddress.getHostAddress();
-            logger.info("[V1] Current IP address : " + inetAddress.getHostAddress());
+            logger.info("Current IP address : " + inetAddress.getHostAddress());
         } catch (Exception e) {
             logger.info(String.valueOf(e));
         }
 
-        return "[V1] You said " + input + " to " + hostAddress + " date: " + new Date() + "\n";
+        return "[" + projectVersion + "]You said " + input + " to " + hostAddress + " date: " + new Date() + "\n";
     }
 }
